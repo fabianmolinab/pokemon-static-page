@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import { Container, Switch, useTheme } from '@nextui-org/react'
-import { MainLayout } from '../components/layouts/MainLayout'
+import { MainLayout } from '../components/layouts'
 import useDarkMode from 'use-dark-mode'
 
 const HomePage: NextPage = () => {

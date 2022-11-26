@@ -1,13 +1,36 @@
-import type { AppProps } from 'next/app'
-import { NextUIProvider } from '@nextui-org/react'
-import useDarkMode from 'use-dark-mode'
-import { darkTheme, lightTheme } from '../themes/themeDefault'
+import React from 'react'
+import Document, {
+  Html,
+  Head,
+  Main,
+  DocumentContext,
+  DocumentInitialProps,
+  NextScript,
+} from 'next/document'
+import { CssBaseline } from '@nextui-org/react'
 
-export default function App({ Component, pageProps }: AppProps) {
-  const darkMode = useDarkMode(false)
-  return (
-    <NextUIProvider theme={darkMode.value ? darkTheme : lightTheme}>
-      <Component {...pageProps} />
-    </NextUIProvider>
-  )
+class MyDocument extends Document {
+  static async getInitialProps(
+    ctx: DocumentContext
+  ): Promise<DocumentInitialProps> {
+    const initialProps = await Document.getInitialProps(ctx)
+
+    return {
+      ...initialProps,
+      styles: React.Children.toArray([initialProps.styles]),
+    }
+  }
+
+  render() {
+    return (
+      <Html lang="es">
+        <Head>{CssBaseline.flush()}</Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    )
+  }
 }
+export default MyDocument
