@@ -2,22 +2,31 @@ import { GetStaticProps, NextPage } from 'next'
 import { Container, Switch, useTheme } from '@nextui-org/react'
 import useDarkMode from 'use-dark-mode'
 import { MainLayout } from '../components/layouts'
-import { pokeApi } from '../api'
-import { PokemonListResponse } from '../interfaces/'
+import { pokeLimit } from '../api'
+import { SmallPokemon } from '../interfaces'
 
-const HomePage: NextPage = (props) => {
+interface Props {
+  pokemons: SmallPokemon[]
+}
+
+const HomePage: NextPage<Props> = ({ pokemons }) => {
   const darkMode = useDarkMode(false)
+
   const { isDark } = useTheme()
-  console.log(props)
+  console.log(pokemons)
+
   return (
     <MainLayout title="Listado de Pokemons">
       <Container md>
         <Switch checked={isDark} onChange={() => darkMode.toggle()} />
       </Container>
+
       <ul>
-        <li>Pokemons</li>
-        <li>Pokemons</li>
-        <li>Pokemons</li>
+        {pokemons.map(({ id, name }) => (
+          <li key={id}>
+            {id}. {name}
+          </li>
+        ))}
         <li>Pokemons</li>
       </ul>
     </MainLayout>
@@ -30,13 +39,26 @@ const HomePage: NextPage = (props) => {
  *Cuando se crea la pagina ya viene con todos los datos precargados por lo tanto no necesita hacer peticiones, por que ya vienen del lado del servidor.
  */
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
-  const { data } = await pokeApi.get<PokemonListResponse>('/pokemon?limit=151')
-  console.log(ctx)
+export const getStaticProps: GetStaticProps = async () => {
+  // Llamada HTTP
+  const data = await pokeLimit()
+
+  type PokeType = {
+    name: string
+    url: string
+  }
+
+  //Se agrega los otros campos de los pokemons
+  const pokemons: SmallPokemon[] = data.map((poke: PokeType, i: number) => ({
+    ...poke,
+    id: i + 1,
+    img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${
+      i + 1
+    }.svg`,
+  }))
+
   return {
-    props: {
-      pokemons: data,
-    },
+    props: { pokemons },
   }
 }
 

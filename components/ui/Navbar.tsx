@@ -1,6 +1,6 @@
+import React from 'react'
 import { Spacer, Text } from '@nextui-org/react'
 import Image from 'next/image'
-import React from 'react'
 import { Logo } from '../atoms'
 
 export const Navbar: React.FC = () => {
