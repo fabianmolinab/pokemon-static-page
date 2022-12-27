@@ -1,9 +1,11 @@
 import { GetStaticProps, NextPage } from 'next'
 import { Container, Switch, useTheme } from '@nextui-org/react'
 import useDarkMode from 'use-dark-mode'
+
 import { MainLayout } from '../components/layouts'
 import { pokeLimit } from '../api'
 import { SmallPokemon } from '../interfaces'
+import { GridPokemon } from '../components/molecules'
 
 interface Props {
   pokemons: SmallPokemon[]
@@ -13,7 +15,6 @@ const HomePage: NextPage<Props> = ({ pokemons }) => {
   const darkMode = useDarkMode(false)
 
   const { isDark } = useTheme()
-  console.log(pokemons)
 
   return (
     <MainLayout title="Listado de Pokemons">
@@ -21,14 +22,7 @@ const HomePage: NextPage<Props> = ({ pokemons }) => {
         <Switch checked={isDark} onChange={() => darkMode.toggle()} />
       </Container>
 
-      <ul>
-        {pokemons.map(({ id, name }) => (
-          <li key={id}>
-            {id}. {name}
-          </li>
-        ))}
-        <li>Pokemons</li>
-      </ul>
+      <GridPokemon pokemons={pokemons} />
     </MainLayout>
   )
 }
