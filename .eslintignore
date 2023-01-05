@@ -1,0 +1,8 @@
+node_modules
+lint-staged
+.eslintrc.json
+next.config.js
+tsconfig.json
+yarn.lock
+jest.config.json
+jest.setup.js
