@@ -1,5 +1,6 @@
-import { Button, Card, Container, Grid, Image, Text } from '@nextui-org/react'
+import { Button, Card, Grid, Text } from '@nextui-org/react'
 import { GetStaticProps, GetStaticPaths, NextPage } from 'next'
+import { SpritePokemon } from '../../components/atoms/SpritePokemon'
 import { MainLayout } from '../../components/layouts'
 import { Pokemon } from '../../interfaces'
 
@@ -7,7 +8,7 @@ interface Props {
   pokemon: Pokemon
 }
 const PokemonPage: NextPage<Props> = ({ pokemon }) => {
-  const { name } = pokemon
+  const { name, sprites } = pokemon
   return (
     <MainLayout>
       <Grid.Container css={{ marginTop: '5px' }} gap={2}>
@@ -16,8 +17,7 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
             <Card.Body>
               <Card.Image
                 src={
-                  pokemon.sprites.other?.dream_world.front_default ||
-                  '/no-image.png'
+                  sprites.other?.dream_world.front_default || '/no-image.png'
                 }
               />
             </Card.Body>
@@ -37,38 +37,7 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
               </Button>
             </Card.Header>
 
-            <Card.Body>
-              <Text size={30}>Sprites:</Text>
-              <Container direction="row" display="flex" gap={0}>
-                <Image
-                  src={pokemon.sprites.front_default}
-                  alt={name}
-                  width={100}
-                  height={100}
-                />
-
-                <Image
-                  src={pokemon.sprites.back_default}
-                  alt={name}
-                  width={100}
-                  height={100}
-                />
-
-                <Image
-                  src={pokemon.sprites.front_shiny}
-                  alt={name}
-                  width={100}
-                  height={100}
-                />
-
-                <Image
-                  src={pokemon.sprites.back_shiny}
-                  alt={name}
-                  width={100}
-                  height={100}
-                />
-              </Container>
-            </Card.Body>
+            <SpritePokemon name={name} sprites={sprites} />
           </Card>
         </Grid>
       </Grid.Container>
