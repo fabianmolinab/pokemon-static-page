@@ -1,11 +1,18 @@
 import React from 'react'
-import { Spacer, Text } from '@nextui-org/react'
 import Image from 'next/image'
+
+import { Container, Text, Switch, Spacer, useTheme } from '@nextui-org/react'
 import { Logo } from '../atoms'
 
+import useDarkMode from 'use-dark-mode'
+
 export const Navbar: React.FC = () => {
+  const darkMode = useDarkMode(false)
+
+  const { isDark } = useTheme()
+
   return (
-    <div
+    <Container
       style={{
         display: 'flex',
         width: '100%',
@@ -22,8 +29,12 @@ export const Navbar: React.FC = () => {
         height={70}
       />
       <Logo />
+
       <Spacer css={{ flex: 1 }} />
       <Text>Favoritos</Text>
-    </div>
+      <Spacer css={{ flex: 1 }} />
+
+      <Switch checked={isDark} onChange={() => darkMode.toggle()} />
+    </Container>
   )
 }
