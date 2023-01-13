@@ -9,7 +9,7 @@ interface Props {
 
 export const MainLayout: React.FC<Props> = ({ children, title }) => {
   return (
-    <div>
+    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
       <Head>
         <title>{title || 'PokemonApp'}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
